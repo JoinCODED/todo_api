@@ -29,14 +29,14 @@ class Todo {
     required this.todoName,
     required this.createdAt,
     required this.updatedAt,
-    required this.V,
+    // required this.V,
     required this.isComplete,
   });
   late final String id;
   late final String todoName;
   late final String? createdAt;
   late final String updatedAt;
-  late final int? V;
+  // late final int? V;
   late final bool? isComplete;
 
   Todo.fromJson(Map<String, dynamic> json) {
@@ -44,7 +44,7 @@ class Todo {
     todoName = json['todoName'];
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];
-    V = json['__v'];
+    // V = json['__v'];
     isComplete = json['isComplete'];
   }
 
@@ -54,7 +54,7 @@ class Todo {
     _data['todoName'] = todoName;
     _data['createdAt'] = createdAt;
     _data['updatedAt'] = updatedAt;
-    _data['__v'] = V;
+    // _data['__v'] = V;
     _data['isComplete'] = isComplete;
     return _data;
   }

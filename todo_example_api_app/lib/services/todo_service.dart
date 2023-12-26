@@ -1,22 +1,50 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 import 'package:todo_example_api_app/models/todo_model.dart';
 
 class TodoService {
   final String serverUrl = "https://calm-plum-jaguar-tutu.cyclic.app/todos";
-  final _dio = Dio();
+  final Dio _dio = Dio();
 
-  Future<List<Todo>> getTodosList() async {
+  Future<List<Todo>> getTodosListApi() async {
     try {
       final responseValue = await _dio.get(serverUrl);
       if (responseValue.statusCode == 200) {
         final TodoModel todoModel = TodoModel.fromJson(responseValue.data);
-
-        //list.map((e) => Todo.fromJson(list));
+        return todoModel.data;
       }
       return [];
     } catch (e) {
-      throw "Error!!";
+      throw e.toString();
+    }
+  }
+
+  createTodoApi(String todoName, bool? isComplete) async {
+    try {
+      final Response response = await _dio.post(
+        serverUrl,
+        data: {
+          "todoName": todoName,
+          "isComplete": isComplete,
+        },
+      );
+      return response.data;
+    } catch (e) {
+      throw e.toString();
+    }
+  }
+
+  updateTodoApi(String id, bool? isComplete) async {
+    try {
+      final response = await _dio.put(
+        "$serverUrl/$id",
+        data: {
+          "isComplete": isComplete,
+        },
+      );
+
+      return response.data;
+    } catch (e) {
+      throw e.toString();
     }
   }
 }
