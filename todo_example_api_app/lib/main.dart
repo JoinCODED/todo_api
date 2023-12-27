@@ -1,18 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import 'package:todo_example_api_app/providers/auth_provider.dart';
 import 'package:todo_example_api_app/providers/todo_provider.dart';
+import 'package:todo_example_api_app/services/client.dart';
 import 'package:todo_example_api_app/views/add_note.dart';
 import 'package:todo_example_api_app/views/my_home_page.dart';
+import 'package:todo_example_api_app/views/signin.dart';
+import 'package:todo_example_api_app/views/signup.dart';
+import 'package:todo_example_api_app/views/splash_screen.dart';
 
 void main() {
-  runApp(
+  runApp(MultiProvider(providers: [
     ChangeNotifierProvider(
       create: (context) => TodoProvider(),
-      child: MyApp(),
     ),
-  );
+    ChangeNotifierProvider(
+      create: (context) => AuthProvider(),
+    ),
+  ], child: MyApp()));
 }
+
+// ChangeNotifierProvider(
+//   create: (context) => TodoProvider(),
 
 class MyApp extends StatelessWidget {
   MyApp({super.key});
@@ -32,7 +42,7 @@ class MyApp extends StatelessWidget {
 
   final _router = GoRouter(routes: [
     GoRoute(
-      path: "/",
+      path: "/home",
       name: "home",
       builder: (context, state) => MyHomePage(),
     ),
@@ -40,6 +50,21 @@ class MyApp extends StatelessWidget {
       path: "/addNote",
       name: "addNote",
       builder: (context, state) => AddNote(),
+    ),
+    GoRoute(
+      path: "/signup",
+      name: 'signup',
+      builder: (context, state) => SignupPage(),
+    ),
+    GoRoute(
+      path: "/",
+      name: 'splash',
+      builder: (context, state) => SplashScreen(),
+    ),
+    GoRoute(
+      path: "/signin",
+      name: "signin",
+      builder: (context, state) => SigninPage(),
     ),
   ]);
 }
